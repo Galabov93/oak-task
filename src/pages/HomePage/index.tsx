@@ -1,17 +1,21 @@
 import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
-interface Step {
+import PhaseStep from './PhaseStep';
+
+export interface Step {
   name: string;
   isDone: boolean;
 }
 
-interface Phase {
+export interface Phase {
   stage: number;
   isDone: boolean;
   phaseName: string;
   steps: Step[];
 }
+
+const STORAGE_KEY_STARTUP_STEPS = 'startup-steps';
 
 const INITIAL_STARTUP_STEPS: Phase[] = [
   {
@@ -57,65 +61,28 @@ const INITIAL_STARTUP_STEPS: Phase[] = [
 //   ],
 // ]);
 
-function MultiStepForm() {
-  const [phases, setPhases] = useLocalStorage('startup-steps', INITIAL_STARTUP_STEPS);
-
-  const toggleCheckbox = (stage: number, name: string) => {
-    const newPhases = phases.map((phase) => {
-      if (phase.stage !== stage) return phase;
-
-      const checkboxToToggle = phase.steps.find((step) => step.name === name);
-
-      if (checkboxToToggle !== undefined) {
-        checkboxToToggle.isDone = !checkboxToToggle.isDone;
-      }
-
-      return phase;
-    });
-
-    setPhases(newPhases);
-  };
+function Homepage() {
+  const [phases, setPhases] = useLocalStorage(
+    STORAGE_KEY_STARTUP_STEPS,
+    INITIAL_STARTUP_STEPS,
+  );
 
   return (
     <div>
       {phases.map(({ stage, phaseName, steps }) => {
         return (
-          <div key={phaseName}>
-            <h1>{phaseName}</h1>
-            <p>{stage}</p>
-
-            {steps.map(({ name, isDone }) => {
-              return (
-                <Checkbox
-                  key={name}
-                  label={name}
-                  checked={isDone}
-                  onToggle={() => toggleCheckbox(stage, name)}
-                />
-              );
-            })}
-          </div>
+          <PhaseStep
+            key={phaseName}
+            phaseName={phaseName}
+            stage={stage}
+            steps={steps}
+            phases={phases}
+            setPhases={setPhases}
+          />
         );
       })}
     </div>
   );
 }
 
-export default MultiStepForm;
-
-interface CheckboxProps {
-  label: string;
-  checked: boolean;
-  onToggle: () => void;
-}
-
-function Checkbox({ label, checked, onToggle }: CheckboxProps): React.ReactElement {
-  return (
-    <div>
-      <label>
-        <input type="checkbox" checked={checked} onChange={onToggle} />
-        {label}
-      </label>
-    </div>
-  );
-}
+export default Homepage;
