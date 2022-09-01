@@ -1,3 +1,5 @@
+import './PhaseStep.css';
+
 import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -53,10 +55,12 @@ function PhaseStep({ phaseName, stage, steps, phases, setPhases }: PhaseStepProp
 
   return (
     <div>
-      <h2>{phaseName}</h2>
-      <p>
-        Step {stage} of {lastStage}
-      </p>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+        <h2>{phaseName}</h2>
+        <span style={{ marginLeft: 'auto' }}>
+          Step {stage} of {lastStage}
+        </span>
+      </div>
 
       {steps.map(({ name, isDone }) => {
         return (
@@ -99,19 +103,37 @@ function PhaseButtons({
     console.log('Complete');
   };
 
+  // TODO: add tooltip to button, when disabled to explain all tasks are not done
   return (
-    <>
-      {stage !== 1 && <button onClick={prevFormStep}>Prev</button>}
+    <div className="buttons-container">
+      {stage !== 1 && <Button onClick={prevFormStep}>Prev</Button>}
       {stage !== lastStage && (
-        <button onClick={nextFormStep} disabled={steps.some(({ isDone }) => !isDone)}>
+        <Button onClick={nextFormStep} disabled={steps.some(({ isDone }) => !isDone)}>
           Next
-        </button>
+        </Button>
       )}
       {stage === lastStage && (
-        <button onClick={onComplete} disabled={steps.some(({ isDone }) => !isDone)}>
+        <Button onClick={onComplete} disabled={steps.some(({ isDone }) => !isDone)}>
           Complete
-        </button>
+        </Button>
       )}
-    </>
+    </div>
+  );
+}
+
+interface ButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+function Button({
+  onClick,
+  children,
+  ...rest
+}: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button onClick={onClick} {...rest}>
+      {children}
+    </button>
   );
 }

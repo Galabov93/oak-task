@@ -1,0 +1,23 @@
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 16px auto 8px;
+}
+
+.buttons-container button {
+  padding: 8px 16px;
+  background-color: var(--primary);
+  color: var(--text-light);
+  cursor: pointer;
+  border: none;
+}
+
+.buttons-container button:hover {
+  background-color: var(--primary-dark);
+}
+
+.buttons-container button:disabled {
+  background-color: var(--disabled);
+  cursor: default;
+}

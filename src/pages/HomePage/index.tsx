@@ -1,14 +1,18 @@
+import './HomePage.css';
+
 import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
 import PhaseStep from './PhaseStep';
 
 export interface Step {
+  // id: string
   name: string;
   isDone: boolean;
 }
 
 export interface Phase {
+  // id: string;
   stage: number;
   isDone: boolean;
   phaseName: string;
@@ -62,25 +66,29 @@ const INITIAL_STARTUP_STEPS: Phase[] = [
 // ]);
 
 function Homepage() {
+  // set initial phases or load from local storage
   const [phases, setPhases] = useLocalStorage(
     STORAGE_KEY_STARTUP_STEPS,
     INITIAL_STARTUP_STEPS,
   );
 
   return (
-    <div>
-      {phases.map(({ stage, phaseName, steps }) => {
-        return (
-          <PhaseStep
-            key={phaseName}
-            phaseName={phaseName}
-            stage={stage}
-            steps={steps}
-            phases={phases}
-            setPhases={setPhases}
-          />
-        );
-      })}
+    <div className="homepage">
+      <h1>Startup Progress</h1>
+      <div className="container">
+        {phases.map(({ stage, phaseName, steps }) => {
+          return (
+            <PhaseStep
+              key={phaseName}
+              phaseName={phaseName}
+              stage={stage}
+              steps={steps}
+              phases={phases}
+              setPhases={setPhases}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -11,7 +11,12 @@ function Checkbox({ label, checked, onToggle }: CheckboxProps): React.ReactEleme
   return (
     <div>
       <label>
-        <input type="checkbox" checked={checked} onChange={onToggle} />
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={onToggle}
+          style={{ cursor: 'pointer' }}
+        />
         {label}
       </label>
     </div>
