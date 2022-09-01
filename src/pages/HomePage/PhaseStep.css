@@ -5,7 +5,7 @@
   margin: 16px auto 8px;
 }
 
-.buttons-container button {
+.primary-btn {
   padding: 8px 16px;
   background-color: var(--primary);
   color: var(--text-light);
@@ -13,11 +13,11 @@
   border: none;
 }
 
-.buttons-container button:hover {
+.primary-btn:hover {
   background-color: var(--primary-dark);
 }
 
-.buttons-container button:disabled {
+.primary-btn:disabled {
   background-color: var(--disabled);
   cursor: default;
 }

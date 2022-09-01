@@ -1,6 +1,7 @@
 import './PhaseStep.css';
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 
 import { Phase, Step } from '.';
@@ -55,7 +56,7 @@ function PhaseStep({ phaseName, stage, steps, phases, setPhases }: PhaseStepProp
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', margin: '8px 4px 16px' }}>
         <h2>{phaseName}</h2>
         <span style={{ marginLeft: 'auto' }}>
           Step {stage} of {lastStage}
@@ -97,10 +98,11 @@ function PhaseButtons({
   steps,
   setFormStep,
 }: PhaseButtonsProps): React.ReactElement {
+  const navigate = useNavigate();
   const nextFormStep = () => setFormStep((step) => step + 1);
   const prevFormStep = () => setFormStep((step) => step - 1);
   const onComplete = () => {
-    console.log('Complete');
+    navigate('/complete');
   };
 
   // TODO: add tooltip to button, when disabled to explain all tasks are not done
@@ -126,13 +128,13 @@ interface ButtonProps {
   children: React.ReactNode;
 }
 
-function Button({
+export function Button({
   onClick,
   children,
   ...rest
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button onClick={onClick} {...rest}>
+    <button className="primary-btn" onClick={onClick} {...rest}>
       {children}
     </button>
   );
